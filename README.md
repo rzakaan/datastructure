@@ -1,2 +1,16 @@
-# datastructure
-Datastructure Implementation
+# Datastructure Implementation
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+
+- [Stack](./src/stack/README.md)
+- [Queue](./src/queue/README.md)
+- [Array List](./src/arraylist/README.md)
+- [Linked List](./src/linkedlist/README.md)
+- [Binary Search Tree](./src/bst/README.md)
+- [AVL Tree](./src/avl/README.md)
+- [RB Tree](./src/rbtree/README.md)
+- [Heap](./src/heap/README.md)
+- [Matrix](./src/matrix/README.md)
+- [Graph](./src/graph/README.md)

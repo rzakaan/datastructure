@@ -4,9 +4,9 @@ OBJECTS=${SOURCES:.cpp=.o}
 
 CXX=c++
 
-all: stack.bin
+all: clean stack.bin
 
-stack.bin: clean ${OBJECTS}
+stack.bin: ${OBJECTS}
 	${CXX} $^ -o $@
 
 %.o : %.cpp

@@ -1,51 +1,77 @@
 #include <iostream>
-#include <string.h>
+#include <cstring>
+#include <cstdlib>
+#define DEFAULT_CAPACITY 10
 
 using namespace std;
-
-#define MAX 3
+template <typename T>
 class Stack {
     int index;
-public:
-    int data[MAX];
+    int capacity;
+    T* data;
+    void init(int capacity);
 
+public:
     Stack();
-    bool push(int value);
-    int pop();
-    int peek();
+    Stack(int capacity);
     int size();
     bool is_empty();
     bool is_full();
+    bool push(T value);
+    T pop();
+    T peek();
+    void show();
 };
 
-Stack::Stack() {
+template <typename T>
+void Stack<T>::init(int capacity) {
     index = -1;
-    bzero(&data, sizeof(data));
+    this->capacity = capacity;
+    int size = sizeof(T) * capacity;
+    data = (T*) malloc(size);
+    if (NULL != data) {
+        bzero(data, size);
+    }
 }
 
-int Stack::size() {
+template <typename T>
+Stack<T>::Stack() {
+    init(DEFAULT_CAPACITY);
+}
+
+template <typename T>
+Stack<T>::Stack(int capacity) {
+    init(capacity);
+}
+
+template <typename T>
+int Stack<T>::size() {
     return index + 1;
 }
 
-bool Stack::is_full() {
-    return (index >= MAX - 1) ? true : false;
+template <typename T>
+bool Stack<T>::is_full() {
+    return (index >= capacity - 1) ? true : false;
 }
 
-bool Stack::is_empty() {
+template <typename T>
+bool Stack<T>::is_empty() {
     return index < 0 ? true : false;
 }
 
-bool Stack::push(int value) {
+template <typename T>
+bool Stack<T>::push(T value) {
     if(this->is_full()) {
         cerr << "stack overflow !" << endl;
         return false;
     }
-
+    
     data[++index] = value;
     return true;
 }
 
-int Stack::pop() {
+template <typename T>
+T Stack<T>::pop() {
     if(this->is_empty()) {
         cerr << "stack is empty !" << endl;
         return -1;
@@ -54,7 +80,8 @@ int Stack::pop() {
     return data[index--];
 }
 
-int Stack::peek() {
+template <typename T>
+T Stack<T>::peek() {
     if(this->is_empty()) {
         cerr << "stack is empty !" << endl;
         return -1;
@@ -64,10 +91,9 @@ int Stack::peek() {
 }
 
 int main() {
-    class Stack s;
-    s.push(10);
+    class Stack<int> s;
     s.push(20);
-    s.push(30);
+    s.push(20);
     s.push(40);
 
     cout << "stack size : " << s.size() << endl;

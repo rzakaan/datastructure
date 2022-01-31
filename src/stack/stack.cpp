@@ -1,13 +1,13 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-#define DEFAULT_CAPACITY 10
+#define DEFAULT_CAPACITY 25
 
 using namespace std;
 template <typename T>
 class Stack {
     int index;
-    int capacity;
+    int m_capacity;
     T* data;
     void init(int capacity);
 
@@ -15,6 +15,7 @@ public:
     Stack();
     Stack(int capacity);
     int size();
+    int capacity();
     bool is_empty();
     bool is_full();
     bool push(T value);
@@ -24,10 +25,10 @@ public:
 };
 
 template <typename T>
-void Stack<T>::init(int capacity) {
+void Stack<T>::init(int m_capacity) {
     index = -1;
-    this->capacity = capacity;
-    int size = sizeof(T) * capacity;
+    this->m_capacity = m_capacity;
+    int size = sizeof(T) * m_capacity;
     data = (T*) malloc(size);
     if (NULL != data) {
         bzero(data, size);
@@ -45,13 +46,18 @@ Stack<T>::Stack(int capacity) {
 }
 
 template <typename T>
+int Stack<T>::capacity() {
+    return m_capacity;
+}
+
+template <typename T>
 int Stack<T>::size() {
     return index + 1;
 }
 
 template <typename T>
 bool Stack<T>::is_full() {
-    return (index >= capacity - 1) ? true : false;
+    return (index >= m_capacity - 1) ? true : false;
 }
 
 template <typename T>

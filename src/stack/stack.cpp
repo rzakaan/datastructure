@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <stack>
 #define DEFAULT_CAPACITY 25
 
 using namespace std;
@@ -16,12 +17,11 @@ public:
     Stack(int capacity);
     int size();
     int capacity();
-    bool is_empty();
+    bool empty() const;
     bool is_full();
     bool push(T value);
     T pop();
     T peek();
-    void show();
 };
 
 template <typename T>
@@ -60,14 +60,14 @@ bool Stack<T>::is_full() {
     return (index >= m_capacity - 1) ? true : false;
 }
 
-template <typename T>
-bool Stack<T>::is_empty() {
-    return index < 0 ? true : false;
+template <typename T> 
+bool Stack<T>::empty() const {
+  return index < 0 ? true : false;
 }
 
 template <typename T>
 bool Stack<T>::push(T value) {
-    if(this->is_full()) {
+    if(is_full()) {
         cerr << "stack overflow !" << endl;
         return false;
     }
@@ -78,7 +78,7 @@ bool Stack<T>::push(T value) {
 
 template <typename T>
 T Stack<T>::pop() {
-    if(this->is_empty()) {
+    if(empty()) {
         cerr << "stack is empty !" << endl;
         return -1;
     }
@@ -88,7 +88,7 @@ T Stack<T>::pop() {
 
 template <typename T>
 T Stack<T>::peek() {
-    if(this->is_empty()) {
+    if(empty()) {
         cerr << "stack is empty !" << endl;
         return -1;
     }
@@ -97,14 +97,19 @@ T Stack<T>::peek() {
 }
 
 int main() {
-    class Stack<int> s;
-    s.push(20);
+    Stack<int> s;
+    s.push(10);
     s.push(20);
     s.push(40);
 
-    cout << "stack size : " << s.size() << endl;
-    while (!s.is_empty()) {
-        cout << "peek data : " << s.peek()  << endl;
-        s.pop();
+    cout << "stack empty    : " << (s.empty() ? "true" : "false") << endl;
+    cout << "stack is_full  : " << (s.is_full() ? "true" : "false") << endl;
+    cout << "stack size     : " << s.size() << endl;
+    cout << "stack capacity : " << s.capacity() << endl;
+
+    while (!s.empty()) {
+      cout << "peek data : " << s.peek() << endl;
+      s.pop();
     }
+    
 }

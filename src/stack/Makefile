@@ -14,3 +14,7 @@ stack.bin: ${OBJECTS}
 
 clean:
 	rm -f *.o
+	rm -f *.bin
+
+run: stack.bin
+	./$<

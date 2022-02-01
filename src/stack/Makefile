@@ -1,10 +1,13 @@
-HEADERS=$(wildcard *.h)
-SOURCES=$(wildcard *.cpp)
+SOURCES=$(wildcard stack.cpp)
+STD_SOURCES=$(wildcard std.cpp)
 OBJECTS=${SOURCES:.cpp=.o}
 
 CXX=c++
 
 all: clean stack.bin
+
+std.bin: ${STD_SOURCES}
+	${CXX} $^ -o $@
 
 stack.bin: ${OBJECTS}
 	${CXX} $^ -o $@
@@ -15,6 +18,9 @@ stack.bin: ${OBJECTS}
 clean:
 	rm -f *.o
 	rm -f *.bin
+
+std: std.bin
+	./$<
 
 run: stack.bin
 	./$<

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-#include <stack>
 #define DEFAULT_CAPACITY 25
 
 using namespace std;

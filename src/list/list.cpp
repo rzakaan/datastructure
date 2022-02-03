@@ -1,12 +1,27 @@
 #include <cstdint>
+#include <exception>
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
 #include <climits>
+#include <exception>
 
 #define DEFAULT_CAPACITY 100
 
 using namespace std;
+
+struct IndexOutOfBounds : public std::exception {
+	const char* what () const throw () {
+    	return "ArrayIndexOutOfBounds";
+    }
+};
+
+struct ElementNotFound : public std::exception {
+	const char* what () const throw () {
+    	return "ElementNotFound";
+    }
+};
+
 template <typename T>
 class ArrayList {
     T* data;
@@ -23,8 +38,9 @@ public:
     int capacity();
     bool empty();
     void clear();
-    bool add(T value);
-    bool add(T value, int index);
+
+    void add(T value);
+    void add(T value, int index);
     bool remove(int index);
     T first();
     T last();
@@ -32,6 +48,7 @@ public:
     int find(const T&);
     bool contains(const T& value);
     void merge(ArrayList<T> array);
+    
     ArrayList<T>& operator <<(const T& value);
 };
 
@@ -99,15 +116,13 @@ void ArrayList<T>::clear() {
 }
 
 template <typename T>
-bool ArrayList<T>::add(T value) {
+void ArrayList<T>::add(T value) {
     data[++index] = value;
-    return true;
 }
 
 template <typename T>
-bool ArrayList<T>::add(T value, int index) {
-    if (!is_valid_index(index))
-        return false;
+void ArrayList<T>::add(T value, int index) {
+    if (!is_valid_index(index)) return;
 
     for (int i = size() - 1; i >= 0; i--) {
         if (i >= index) {
@@ -117,7 +132,6 @@ bool ArrayList<T>::add(T value, int index) {
 
     data[index] = value;
     this->index++;
-    return true;
 }
 
 template <typename T>
@@ -136,21 +150,24 @@ template <typename T>
 T ArrayList<T>::first() {
     if (!empty())
         return data[0];
-    return INT_MIN;
+    
+    throw ElementNotFound();
 }
 
 template <typename T>
 T ArrayList<T>::last() {
     if (!empty())
         return data[index];
-    return INT_MIN;
+    
+    throw ElementNotFound();
 }
 
 template <typename T>
 T ArrayList<T>::get(int index) {
     if (is_valid_index(index))
         return data[index];
-    return INT_MIN;
+
+    throw IndexOutOfBounds();
 }
 
 template <typename T>
@@ -183,6 +200,12 @@ int main() {
 
     for(int i = 0; i < arr.size(); i++) {
         cout << arr.get(i) << endl;
+    }
+
+    try {
+        arr.get(10);    
+    } catch (IndexOutOfBounds e){
+        cerr << e.what() << endl;
     }
 
     arr.clear();

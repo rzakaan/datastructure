@@ -24,9 +24,9 @@ struct ElementNotFound : public std::exception {
 
 template <typename T>
 class ArrayList {
-    T* data;
+    T* m_data;
     int m_capacity;
-    int index;
+    int m_index;
     void init();
     bool is_valid_index(int index);
     bool needs_expansion();
@@ -45,10 +45,10 @@ public:
     T first();
     T last();
     T get(int index);
-    int find(const T&);
+    int index(const T&);
     bool contains(const T& value);
     void merge(ArrayList<T> array);
-    
+
     ArrayList<T>& operator <<(const T& value);
 };
 
@@ -67,20 +67,20 @@ void ArrayList<T>::expand_array() {
     m_capacity *= 2;
     T* new_data = new T[m_capacity];
     for (int i = 0; i < size(); i++) {
-        new_data[i] = data[i];
+        new_data[i] = m_data[i];
     }
-    delete [] data;
-    data = new_data;
+    delete [] m_data;
+    m_data = new_data;
 }
 
 
 template <typename T>
 void ArrayList<T>::init() {
-    index = -1;
+    m_index = -1;
     this->m_capacity = DEFAULT_CAPACITY;
-    data = new T[m_capacity];
+    m_data = new T[m_capacity];
     // int size = sizeof(T) * m_capacity;
-    // data = (T*) malloc(size);
+    // m_data = (T*) malloc(size);
 }
 
 template <typename T>
@@ -90,7 +90,7 @@ ArrayList<T>::ArrayList () {
 
 template <typename T>
 ArrayList<T>::~ArrayList () {
-    delete[] data;
+    delete[] m_data;
 }
 
 template <typename T>
@@ -100,7 +100,7 @@ int ArrayList<T>::capacity() {
 
 template <typename T>
 int ArrayList<T>::size() {
-    return (index + 1);
+    return (m_index + 1);
 }
 
 template <typename T>
@@ -110,14 +110,14 @@ bool ArrayList<T>::empty() {
 
 template <typename T>
 void ArrayList<T>::clear() {
-    index = -1;
-    delete[] data;
-    data = new T[capacity()];
+    m_index = -1;
+    delete[] m_data;
+    m_data = new T[capacity()];
 }
 
 template <typename T>
 void ArrayList<T>::add(T value) {
-    data[++index] = value;
+    m_data[++m_index] = value;
 }
 
 template <typename T>
@@ -126,12 +126,12 @@ void ArrayList<T>::add(T value, int index) {
 
     for (int i = size() - 1; i >= 0; i--) {
         if (i >= index) {
-            data[i + 1] = data[i];
+            m_data[i + 1] = m_data[i];
         }
     }
 
-    data[index] = value;
-    this->index++;
+    m_data[index] = value;
+    this->m_index++;
 }
 
 template <typename T>
@@ -139,17 +139,18 @@ bool ArrayList<T>::remove(int index) {
     if (!is_valid_index(index)) return false;
 
     for (int i = index + 1; i < size() - 1; i++) {
-        data[i - 1] = data[i];
+        m_data[i - 1] = m_data[i];
     }
 
-    data[--index] = nullptr;
+    // m_data[--index] = nullptr;
+    m_index--;
     return true;
 }
 
 template <typename T>
 T ArrayList<T>::first() {
     if (!empty())
-        return data[0];
+        return m_data[0];
     
     throw ElementNotFound();
 }
@@ -157,7 +158,7 @@ T ArrayList<T>::first() {
 template <typename T>
 T ArrayList<T>::last() {
     if (!empty())
-        return data[index];
+        return m_data[m_index];
     
     throw ElementNotFound();
 }
@@ -165,15 +166,15 @@ T ArrayList<T>::last() {
 template <typename T>
 T ArrayList<T>::get(int index) {
     if (is_valid_index(index))
-        return data[index];
+        return m_data[index];
 
     throw IndexOutOfBounds();
 }
 
 template <typename T>
-int ArrayList<T>::find(const T& value) {
+int ArrayList<T>::index(const T& value) {
     for (int i = 0; i < size(); i++) {
-        if (data[i] == value) {
+        if (m_data[i] == value) {
             return i;
         }
     }
@@ -183,7 +184,7 @@ int ArrayList<T>::find(const T& value) {
 
 template <typename T>
 bool ArrayList<T>::contains(const T& value) {
-    return find(value) >= 0;
+    return index(value) >= 0;
 }
 
 template <typename T>
@@ -197,6 +198,7 @@ int main() {
     arr << 3 << 1;
     arr.add(5);
     arr.add(7, 0);
+    arr.remove(arr.size() - 1);
 
     for(int i = 0; i < arr.size(); i++) {
         cout << arr.get(i) << endl;
@@ -217,7 +219,7 @@ int main() {
     cout << "arr first    : " << arr.first() << endl;
     cout << "arr last     : " << arr.last() << endl;
     cout << "arr contains : " << (arr.contains(7) ? "true" : "false") << endl;
-    cout << "arr find     : " << arr.find(2) << endl;
+    cout << "arr find     : " << arr.index(2) << endl;
 
     for(int i = 0; i < arr.size(); i++) {
         cout << arr.get(i) << endl;

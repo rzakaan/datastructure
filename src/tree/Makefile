@@ -1,4 +1,4 @@
-SOURCES=$(wildcard main.cpp bst.cpp)
+SOURCES=$(wildcard main.cpp avl.cpp bst.cpp)
 STD_SRC=$(wildcard std.cpp)
 OBJECTS=${SOURCES:.cpp=.o}
 STD_OBJ=${STD_SRC:.cpp=.o}

@@ -1,5 +1,28 @@
 #include <iostream>
 
+/* Rotations
+
+   Right
+   Unbalanced      Left 
+   Tree            Rotation
+    n               x
+     \             / \
+      x           n   y
+       \
+        y
+
+
+    Left
+    Unbalanced     Right
+    Tree           Rotation
+        n           x
+       /           / \
+      x           y   n
+     /
+    y
+
+*/
+
 template <typename T> 
 class AVLTree {
 public:

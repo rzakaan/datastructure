@@ -1,4 +1,4 @@
-SOURCES=$(wildcard main.cpp queue.cpp)
+SOURCES=$(wildcard main.cpp queue.cpp priority.cpp)
 STD_SRC=$(wildcard std.cpp)
 OBJECTS=${SOURCES:.cpp=.o}
 STD_OBJ=${STD_SRC:.cpp=.o}
